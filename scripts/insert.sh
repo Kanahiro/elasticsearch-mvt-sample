@@ -1,0 +1,2 @@
+ogr2ogr -progress -lco BULK_SIZE=5000000 -lco GEOM_MAPPING_TYPE=GEO_SHAPE ES:http://localhost:9200 N03-19_190101.shp
+ogr2ogr -progress -lco BULK_SIZE=5000000 -lco GEOM_MAPPING_TYPE=GEO_POINT ES:http://localhost:9200 gis_osm_pois_free_1.shp
