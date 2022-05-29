@@ -3,7 +3,7 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
         version: 8,
         glyphs: 'https://mierune.github.io/fonts/{fontstack}/{range}.pbf',
         sources: {
-            gsi: {
+            osm: {
                 type: 'raster',
                 tiles: ['https://tile.openstreetmap.org/{z}/{x}/{y}.png'],
                 attribution:
@@ -14,7 +14,8 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                 tiles: [
                     `http://localhost/api/mvt/n03-19_190101/{z}/{x}/{y}?search=${queryAdmin}`,
                 ],
-                maxzoom: 14,
+                minzoom: 6,
+                maxzoom: 10,
             },
             es_poi: {
                 type: 'vector',
@@ -26,9 +27,9 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
         },
         layers: [
             {
-                id: 'gsi',
+                id: 'osm',
                 type: 'raster',
-                source: 'gsi',
+                source: 'osm',
             },
             {
                 id: 'es_admin-fill',
@@ -37,7 +38,7 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                 type: 'fill',
                 paint: {
                     'fill-color': '#6666ff',
-                    'fill-opacity': 0.3,
+                    'fill-opacity': 0.1,
                 },
             },
             {
@@ -48,25 +49,7 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                 paint: {
                     'line-color': '#6666ff',
                     'line-width': 4,
-                },
-            },
-            {
-                id: 'es_poi-heatmap',
-                source: 'es_poi',
-                'source-layer': 'hits',
-                type: 'heatmap',
-                maxzoom: 12,
-                paint: {
-                    'heatmap-radius': 20,
-                    'heatmap-opacity': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        5,
-                        0.8,
-                        12,
-                        0,
-                    ],
+                    'line-opacity': 0.3,
                 },
             },
             {
@@ -79,24 +62,6 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                     'circle-radius': 5,
                     'circle-stroke-color': '#ffffff',
                     'circle-stroke-width': 1,
-                    'circle-opacity': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        7,
-                        0,
-                        14,
-                        1.0,
-                    ],
-                    'circle-stroke-opacity': [
-                        'interpolate',
-                        ['linear'],
-                        ['zoom'],
-                        7,
-                        0,
-                        14,
-                        1.0,
-                    ],
                 },
             },
             {
