@@ -88,10 +88,11 @@ const makeStyle = (
                     'text-field': ['get', 'name'],
                     'text-font': ['Open Sans Regular'],
                     'text-anchor': 'left',
+                    'text-offset': [0.3, 0.3],
                     visibility: showPoi ? 'visible' : 'none',
                 },
                 paint: {
-                    'text-halo-width': 1,
+                    'text-halo-width': 3,
                     'text-halo-color': '#ffffff',
                 },
             },
