@@ -1,4 +1,9 @@
-const makeStyle = (queryAdmin = '', queryPoi = '') => {
+const makeStyle = (
+    showAdmin = true,
+    queryAdmin = '',
+    showPoi = true,
+    queryPoi = '',
+) => {
     return {
         version: 8,
         glyphs: 'https://mierune.github.io/fonts/{fontstack}/{range}.pbf',
@@ -40,6 +45,9 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                     'fill-color': '#6666ff',
                     'fill-opacity': 0.1,
                 },
+                layout: {
+                    visibility: showAdmin ? 'visible' : 'none',
+                },
             },
             {
                 id: 'es_admin-line',
@@ -51,6 +59,9 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                     'line-width': 4,
                     'line-opacity': 0.3,
                 },
+                layout: {
+                    visibility: showAdmin ? 'visible' : 'none',
+                },
             },
             {
                 id: 'es_poi-circle',
@@ -58,10 +69,13 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                 'source-layer': 'hits',
                 type: 'circle',
                 paint: {
-                    'circle-color': '#ff9944',
+                    'circle-color': '#ff4411',
                     'circle-radius': 5,
                     'circle-stroke-color': '#ffffff',
                     'circle-stroke-width': 1,
+                },
+                layout: {
+                    visibility: showPoi ? 'visible' : 'none',
                 },
             },
             {
@@ -74,6 +88,7 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
                     'text-field': ['get', 'name'],
                     'text-font': ['Open Sans Regular'],
                     'text-anchor': 'left',
+                    visibility: showPoi ? 'visible' : 'none',
                 },
                 paint: {
                     'text-halo-width': 1,
@@ -86,21 +101,37 @@ const makeStyle = (queryAdmin = '', queryPoi = '') => {
 
 const map = new maplibregl.Map({
     container: 'map',
-    style: makeStyle(),
+    style: {
+        version: 8,
+        source: {},
+        layers: [],
+    },
     center: [142.4905, 43.566],
     zoom: 9,
 });
 
 const search = () => {
-    const textinputAdmin = document.querySelector('#query-1');
+    const textinputAdmin = document.getElementById('query-1');
     const queryAdmin = textinputAdmin.value;
 
-    const textinputPoi = document.querySelector('#query-2');
+    const textinputPoi = document.getElementById('query-2');
     const queryPoi = textinputPoi.value;
 
-    const style = makeStyle(queryAdmin, queryPoi);
+    const checkAdmin = document.getElementById('check-1');
+    const showAdmin = checkAdmin.checked;
+    const checkPoi = document.getElementById('check-2');
+    const showPoi = checkPoi.checked;
+
+    const style = makeStyle(showAdmin, queryAdmin, showPoi, queryPoi);
     map.setStyle(style);
 };
 
-const searchBtn = document.querySelector('#search-btn');
+const searchBtn = document.getElementById('search-btn');
 searchBtn.onclick = search;
+
+const checkAdmin = document.getElementById('check-1');
+const checkPoi = document.getElementById('check-2');
+checkAdmin.onchange = search;
+checkPoi.onchange = search;
+
+search();
